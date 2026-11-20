@@ -1,23 +1,20 @@
-import { createFileRoute } from "@tanstack/react-router";
-
-// The home route ships no og:image, so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
-export const Route = createFileRoute("/")({
-  component: Index,
-});
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { ShieldCheck, Search, ArrowRight, ArrowUpRight, MessageSquareText, FolderLock, LifeBuoy, Flag, LockKeyhole, Phone, Globe, Building2, BadgeCheck, TriangleAlert, BookOpen, Fingerprint } from 'lucide-react';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { publicOptions } from '@/lib/guven/queries';
+import { head } from '@/lib/guven/domain';
+import { ServiceNotice, Empty } from '@/components/guven/shared';
+export const Route = createFileRoute('/')({ head: () => head('Güvenin adresi', 'Güven Bana ile şüpheli durumları sorgulayın, mağduriyetinizi bildirin ve güvenli çözüm yollarını bulun.'), loader: ({ context }) => context.queryClient.ensureQueryData(publicOptions), component: Home });
+const actions = [ { to: '/asistan', title: 'Derdini anlat', text: 'Çözüm yolunu birlikte bulalım.', icon: MessageSquareText }, { to: '/bildirim', title: 'Şüpheli durumu bildir', text: 'Bir adım at, başkalarını da koru.', icon: Flag }, { to: '/dosyalarim', title: 'Delil kasam', text: 'Kanıtların, yalnızca senin erişiminde.', icon: FolderLock }, { to: '/destek', title: 'Hızlı destek', text: 'Yalnız değilsin. Yanındayız.', icon: LifeBuoy } ] as const;
+const guides = [ { title: 'Kargo mesajındaki bağlantıya dikkat', body: 'Beklemediğiniz bir ödeme talebinde bağlantıyı açmayın. Kargo durumunu şirketin resmî adresinden kontrol edin.', label: 'DİJİTAL GÜVENLİK' }, { title: 'Ödeme yapmadan önce bir kez daha kontrol edin', body: 'Sahte ilanlarda acele ödeme baskısı yaygındır. Alıcı bilgilerini ve güvenli ödeme seçeneklerini doğrulayın.', label: 'ALIŞVERİŞ GÜVENLİĞİ' } ];
+function Home() {
+ const { data } = useSuspenseQuery(publicOptions); const [query,setQuery] = useState(''); const [kind,setKind] = useState('business'); const navigate = useNavigate();
+ return <><section className="home-hero"><p className="eyebrow"><ShieldCheck size={15}/> ÖNCE GÜVEN, SONRA ADIM</p><h1>GÜVEN BANA<span>.</span></h1><p className="subtitle">Güvenin adresi, mağduriyetin karşısında.<br/>Şüphelerini kontrol et, haklarını öğren, çözüm için ilk adımı at.</p><ShieldCheck className="hero-lock" strokeWidth={1}/><div className="hero-bottom"><Button asChild className="hero-button"><Link to="/bildirim">Birlikte çözüme ulaşalım <ArrowUpRight/></Link></Button><span className="hero-assurance"><LockKeyhole size={14}/> Özel delillerin herkese açık değildir.</span></div></section>
+ <section className="search-section"><h2>Güvenmeden önce sorgula.</h2><p>Bir işletme, telefon numarası, web sitesi veya hesap hakkında bilgi ara.</p><form className="search-bar" onSubmit={event => { event.preventDefault(); if (kind === 'business') navigate({ to:'/kesfet', search:{ q:query } }); else navigate({ to:'/guven', search:{ q:query, type:kind as 'phone'|'website'|'social'|'payment' } }); }}><Search size={20}/><input aria-label="Güven araması" placeholder="İşletme adı, telefon, web sitesi veya hesap…" value={query} onChange={e=>setQuery(e.target.value)} required/><select aria-label="Arama türü" value={kind} onChange={e=>setKind(e.target.value)}><option value="business">İşletme</option><option value="phone">Telefon</option><option value="website">Web sitesi</option><option value="social">Sosyal hesap</option><option value="payment">IBAN / Ödeme</option></select><Button type="submit">Sorgula <ArrowRight/></Button></form><div className="search-tags"><span><Building2 size={12}/> İşletmeler</span><span><Phone size={12}/> Telefon numaraları</span><span><Globe size={12}/> Web siteleri</span><span><Fingerprint size={12}/> Şüpheli hesaplar</span></div></section>
+ <section className="quick-actions" aria-label="Hızlı işlemler">{actions.map(item=><Link to={item.to} className="action-tile" key={item.to}><div className="tile-top"><span className="tile-icon"><item.icon size={21}/></span><ArrowUpRight size={16} className="text-muted-foreground"/></div><h3>{item.title}</h3><p>{item.text}</p></Link>)}</section>
+ <div className="home-columns"><section><div className="section-head"><div><h2>Bir adım önde ol.</h2><p>Güvenlik uyarıları ve korunma rehberleri</p></div><Link to="/guven" search={{}}>Tümünü gör <ArrowRight size={13}/></Link></div><div className="alert-list">{data.alerts.slice(0,2).map(alert=><div className="alert-item" key={alert.id}><TriangleAlert size={22}/><div><span className="badge-label">YAYINLANMIŞ UYARI</span><h3>{alert.title}</h3><p>{alert.body}</p></div></div>)}{!data.alerts.length && guides.map(item=><Link to="/basvuru" className="alert-item" key={item.title}><BookOpen size={22}/><div><span className="badge-label">{item.label} · REHBER</span><h3>{item.title}</h3><p>{item.body}</p></div></Link>)}</div></section><section><div className="section-head"><div><h2>Güven, şeffaflıkla başlar.</h2><p>Güven Endeksi</p></div><BadgeCheck className="text-primary" size={22}/></div><div className="trust-band"><ShieldCheck className="text-primary" size={27}/><h3>Bir puandan daha fazlası.</h3><p>Gerçek deneyimler, işletme yanıtları ve çözüm süreçleri. Yeterli veri olmadan puan üretmeyiz.</p><div className="trust-meter" aria-hidden="true">{Array.from({length:10},(_,i)=><span key={i}/>)}</div><div className="trust-legend"><span>ŞEFFAF ÖLÇÜTLER</span><span>DOĞRULANMIŞ DENEYİMLER</span></div><Link to="/guven" search={{}}>Güven Endeksi'ni keşfet <ArrowRight size={14}/></Link></div></section></div>
+ <section className="business-section"><div className="section-head"><div><h2>İşletmeleri yakından tanı.</h2><p>Şeffaf profiller, daha bilinçli kararlar</p></div><Link to="/kesfet" search={{}}>İşletmeleri keşfet <ArrowRight size={13}/></Link></div>{data.unavailable ? <ServiceNotice/> : data.businesses.length ? <div className="business-grid">{data.businesses.slice(0,3).map(b=><Link to="/isletme/$id" params={{id:b.id}} className="business-item" key={b.id}><span className="business-monogram">{b.name.slice(0,2).toLocaleUpperCase('tr')}</span><h3>{b.name}</h3><p>{b.category}</p><div className="business-score"><span>{b.verification_status === 'verified' ? 'Doğrulanmış işletme' : 'Henüz doğrulanmadı'}</span><span>{b.trust_scores?.score != null ? `${b.trust_scores.score}/100` : 'Yeterli veri bulunmuyor'}</span></div></Link>)}</div> : <Empty title="İlk şeffaf profiller burada yer alacak." description="Henüz yayınlanmış işletme profili bulunmuyor. İşletmeniz için profil oluşturabilirsiniz."><Button asChild variant="outline"><Link to="/isletmem">İşletme profili oluştur <ArrowUpRight/></Link></Button></Empty>}</section>
+ {data.cases.length > 0 && <section className="business-section"><div className="section-head"><h2>Benzer olaylar, ortak çözüm yolları.</h2></div><div className="business-grid">{data.cases.map(c=><div className="business-item" key={c.id}><h3>{c.title}</h3><p>{c.method_summary}</p><p className="mt-3">{c.solution_hint}</p></div>)}</div></section>}</>;
 }
