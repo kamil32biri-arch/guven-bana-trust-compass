@@ -49,3 +49,29 @@ export const getAdminData = createServerFn({ method: 'GET' }).middleware([requir
   for (const result of [stats,reports,verifications,support,appeals,profiles,audit]) if (result.error) throw new Error('Yönetim verileri yüklenemedi.');
   return { stats: stats.data, reports: reports.data ?? [], verifications: verifications.data ?? [], support: support.data ?? [], appeals: appeals.data ?? [], profiles: profiles.data ?? [], audit: audit.data ?? [] };
 });
+
+export const getBusinessPage = createServerFn({ method: 'GET' }).inputValidator(z.object({ id: z.string().uuid() })).handler(async ({ data }) => {
+  const url = process.env['SUPABASE_URL']; const key = process.env['SUPABASE_PUBLISHABLE_KEY'];
+  if (!url || !key) throw new Error('İşletme bilgilerine şu anda ulaşılamıyor.');
+  const client = createClient<Database>(url, key, { auth: { persistSession: false, autoRefreshToken: false }, global: { fetch: (input, init) => { const headers = new Headers(init?.headers); if (key.startsWith('sb_')) headers.delete('Authorization'); headers.set('apikey', key); return fetch(input, { ...init, headers }); } } });
+  const [business, reviews, responses] = await Promise.all([
+    client.from('businesses').select('id,name,category,description,address,phone,email,website,working_hours,verification_status,trust_scores(*)').eq('id', data.id).maybeSingle(),
+    client.from('reviews').select('id,rating,title,body,is_verified_experience,created_at').eq('business_id', data.id).eq('is_hidden', false).order('created_at', { ascending: false }).limit(100),
+    client.from('business_responses').select('id,review_id,body,created_at').eq('business_id', data.id).not('review_id','is',null),
+  ]);
+  if (business.error || reviews.error || responses.error) throw new Error('İşletme bilgilerine şu anda ulaşılamıyor.');
+  return { business: business.data, reviews: reviews.data ?? [], responses: responses.data ?? [] };
+});
+
+export const getOwnedBusiness = createServerFn({ method: 'GET' }).middleware([requireSupabaseAuth]).inputValidator(z.object({ id: z.string().uuid() })).handler(async ({ data, context }) => {
+  const { data: business, error } = await context.supabase.from('businesses').select('*').eq('id', data.id).eq('owner_id', context.userId).single();
+  if (error || !business) throw new Error('İşletme bulunamadı veya yönetim yetkiniz yok.');
+  const [verifications, reports, reviews, responses] = await Promise.all([
+    context.supabase.from('business_verifications').select('*').eq('business_id', data.id),
+    context.supabase.from('reports').select('id,title,description,status,created_at').eq('business_id', data.id),
+    context.supabase.from('reviews').select('id,title,body,rating,created_at').eq('business_id', data.id),
+    context.supabase.from('business_responses').select('*').eq('business_id', data.id),
+  ]);
+  for (const result of [verifications,reports,reviews,responses]) if (result.error) throw new Error('İşletme süreçleri yüklenemedi.');
+  return { business, verifications:verifications.data??[], reports:reports.data??[], reviews:reviews.data??[], responses:responses.data??[] };
+});

@@ -10,3 +10,4 @@
 - [ ] Gerçek kullanıcı akışı, erişim güvenliği ve mobil testler (Cloud yeniden açılması bekleniyor)
 
 Son talep: Kaldığın yerden devam et; mevcut iş sırası korunur.
+Cloud yeniden açma onayı alındı ve yeniden açma işlemi başarılı; hizmetin hazır olması bekleniyor.

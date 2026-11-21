@@ -10,33 +10,234 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AsistanRouteImport } from './routes/asistan'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BasvuruRouteImport } from './routes/basvuru'
+import { Route as DestekRouteImport } from './routes/destek'
+import { Route as GuvenRouteImport } from './routes/guven'
+import { Route as KesfetRouteImport } from './routes/kesfet'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedBildirimRouteImport } from './routes/_authenticated/bildirim'
+import { Route as AuthenticatedDesteklerRouteImport } from './routes/_authenticated/destekler'
+import { Route as AuthenticatedDosyalarimRouteImport } from './routes/_authenticated/dosyalarim'
+import { Route as AuthenticatedIsletmemRouteImport } from './routes/_authenticated/isletmem'
+import { Route as AuthenticatedProfilimRouteImport } from './routes/_authenticated/profilim'
+import { Route as IsletmeIdRouteImport } from './routes/isletme.$id'
+import { Route as AuthenticatedBildirimlerIdRouteImport } from './routes/_authenticated/bildirimler.$id'
+import { Route as AuthenticatedIsletmemIdRouteImport } from './routes/_authenticated/isletmem.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AsistanRoute = AsistanRouteImport.update({
+  id: '/asistan',
+  path: '/asistan',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BasvuruRoute = BasvuruRouteImport.update({
+  id: '/basvuru',
+  path: '/basvuru',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DestekRoute = DestekRouteImport.update({
+  id: '/destek',
+  path: '/destek',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuvenRoute = GuvenRouteImport.update({
+  id: '/guven',
+  path: '/guven',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KesfetRoute = KesfetRouteImport.update({
+  id: '/kesfet',
+  path: '/kesfet',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedBildirimRoute = AuthenticatedBildirimRouteImport.update({
+  id: '/bildirim',
+  path: '/bildirim',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDesteklerRoute = AuthenticatedDesteklerRouteImport.update({
+  id: '/destekler',
+  path: '/destekler',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDosyalarimRoute = AuthenticatedDosyalarimRouteImport.update({
+  id: '/dosyalarim',
+  path: '/dosyalarim',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedIsletmemRoute = AuthenticatedIsletmemRouteImport.update({
+  id: '/isletmem',
+  path: '/isletmem',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProfilimRoute = AuthenticatedProfilimRouteImport.update({
+  id: '/profilim',
+  path: '/profilim',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const IsletmeIdRoute = IsletmeIdRouteImport.update({
+  id: '/isletme/$id',
+  path: '/isletme/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedBildirimlerIdRoute =
+  AuthenticatedBildirimlerIdRouteImport.update({
+    id: '/bildirimler/$id',
+    path: '/bildirimler/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedIsletmemIdRoute = AuthenticatedIsletmemIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AuthenticatedIsletmemRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/asistan': typeof AsistanRoute
+  '/auth': typeof AuthRoute
+  '/basvuru': typeof BasvuruRoute
+  '/destek': typeof DestekRoute
+  '/guven': typeof GuvenRoute
+  '/kesfet': typeof KesfetRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/bildirim': typeof AuthenticatedBildirimRoute
+  '/destekler': typeof AuthenticatedDesteklerRoute
+  '/dosyalarim': typeof AuthenticatedDosyalarimRoute
+  '/isletmem': typeof AuthenticatedIsletmemRouteWithChildren
+  '/profilim': typeof AuthenticatedProfilimRoute
+  '/isletme/$id': typeof IsletmeIdRoute
+  '/bildirimler/$id': typeof AuthenticatedBildirimlerIdRoute
+  '/isletmem/$id': typeof AuthenticatedIsletmemIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/asistan': typeof AsistanRoute
+  '/auth': typeof AuthRoute
+  '/basvuru': typeof BasvuruRoute
+  '/destek': typeof DestekRoute
+  '/guven': typeof GuvenRoute
+  '/kesfet': typeof KesfetRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/bildirim': typeof AuthenticatedBildirimRoute
+  '/destekler': typeof AuthenticatedDesteklerRoute
+  '/dosyalarim': typeof AuthenticatedDosyalarimRoute
+  '/isletmem': typeof AuthenticatedIsletmemRouteWithChildren
+  '/profilim': typeof AuthenticatedProfilimRoute
+  '/isletme/$id': typeof IsletmeIdRoute
+  '/bildirimler/$id': typeof AuthenticatedBildirimlerIdRoute
+  '/isletmem/$id': typeof AuthenticatedIsletmemIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/asistan': typeof AsistanRoute
+  '/auth': typeof AuthRoute
+  '/basvuru': typeof BasvuruRoute
+  '/destek': typeof DestekRoute
+  '/guven': typeof GuvenRoute
+  '/kesfet': typeof KesfetRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/bildirim': typeof AuthenticatedBildirimRoute
+  '/_authenticated/destekler': typeof AuthenticatedDesteklerRoute
+  '/_authenticated/dosyalarim': typeof AuthenticatedDosyalarimRoute
+  '/_authenticated/isletmem': typeof AuthenticatedIsletmemRouteWithChildren
+  '/_authenticated/profilim': typeof AuthenticatedProfilimRoute
+  '/isletme/$id': typeof IsletmeIdRoute
+  '/_authenticated/bildirimler/$id': typeof AuthenticatedBildirimlerIdRoute
+  '/_authenticated/isletmem/$id': typeof AuthenticatedIsletmemIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/asistan'
+    | '/auth'
+    | '/basvuru'
+    | '/destek'
+    | '/guven'
+    | '/kesfet'
+    | '/reset-password'
+    | '/bildirim'
+    | '/destekler'
+    | '/dosyalarim'
+    | '/isletmem'
+    | '/profilim'
+    | '/isletme/$id'
+    | '/bildirimler/$id'
+    | '/isletmem/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/asistan'
+    | '/auth'
+    | '/basvuru'
+    | '/destek'
+    | '/guven'
+    | '/kesfet'
+    | '/reset-password'
+    | '/bildirim'
+    | '/destekler'
+    | '/dosyalarim'
+    | '/isletmem'
+    | '/profilim'
+    | '/isletme/$id'
+    | '/bildirimler/$id'
+    | '/isletmem/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/asistan'
+    | '/auth'
+    | '/basvuru'
+    | '/destek'
+    | '/guven'
+    | '/kesfet'
+    | '/reset-password'
+    | '/_authenticated/bildirim'
+    | '/_authenticated/destekler'
+    | '/_authenticated/dosyalarim'
+    | '/_authenticated/isletmem'
+    | '/_authenticated/profilim'
+    | '/isletme/$id'
+    | '/_authenticated/bildirimler/$id'
+    | '/_authenticated/isletmem/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AsistanRoute: typeof AsistanRoute
+  AuthRoute: typeof AuthRoute
+  BasvuruRoute: typeof BasvuruRoute
+  DestekRoute: typeof DestekRoute
+  GuvenRoute: typeof GuvenRoute
+  KesfetRoute: typeof KesfetRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  IsletmeIdRoute: typeof IsletmeIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +249,166 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/asistan': {
+      id: '/asistan'
+      path: '/asistan'
+      fullPath: '/asistan'
+      preLoaderRoute: typeof AsistanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/basvuru': {
+      id: '/basvuru'
+      path: '/basvuru'
+      fullPath: '/basvuru'
+      preLoaderRoute: typeof BasvuruRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/destek': {
+      id: '/destek'
+      path: '/destek'
+      fullPath: '/destek'
+      preLoaderRoute: typeof DestekRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guven': {
+      id: '/guven'
+      path: '/guven'
+      fullPath: '/guven'
+      preLoaderRoute: typeof GuvenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kesfet': {
+      id: '/kesfet'
+      path: '/kesfet'
+      fullPath: '/kesfet'
+      preLoaderRoute: typeof KesfetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/bildirim': {
+      id: '/_authenticated/bildirim'
+      path: '/bildirim'
+      fullPath: '/bildirim'
+      preLoaderRoute: typeof AuthenticatedBildirimRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/destekler': {
+      id: '/_authenticated/destekler'
+      path: '/destekler'
+      fullPath: '/destekler'
+      preLoaderRoute: typeof AuthenticatedDesteklerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dosyalarim': {
+      id: '/_authenticated/dosyalarim'
+      path: '/dosyalarim'
+      fullPath: '/dosyalarim'
+      preLoaderRoute: typeof AuthenticatedDosyalarimRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/isletmem': {
+      id: '/_authenticated/isletmem'
+      path: '/isletmem'
+      fullPath: '/isletmem'
+      preLoaderRoute: typeof AuthenticatedIsletmemRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/profilim': {
+      id: '/_authenticated/profilim'
+      path: '/profilim'
+      fullPath: '/profilim'
+      preLoaderRoute: typeof AuthenticatedProfilimRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/isletme/$id': {
+      id: '/isletme/$id'
+      path: '/isletme/$id'
+      fullPath: '/isletme/$id'
+      preLoaderRoute: typeof IsletmeIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/bildirimler/$id': {
+      id: '/_authenticated/bildirimler/$id'
+      path: '/bildirimler/$id'
+      fullPath: '/bildirimler/$id'
+      preLoaderRoute: typeof AuthenticatedBildirimlerIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/isletmem/$id': {
+      id: '/_authenticated/isletmem/$id'
+      path: '/$id'
+      fullPath: '/isletmem/$id'
+      preLoaderRoute: typeof AuthenticatedIsletmemIdRouteImport
+      parentRoute: typeof AuthenticatedIsletmemRoute
+    }
   }
 }
 
+interface AuthenticatedIsletmemRouteChildren {
+  AuthenticatedIsletmemIdRoute: typeof AuthenticatedIsletmemIdRoute
+}
+
+const AuthenticatedIsletmemRouteChildren: AuthenticatedIsletmemRouteChildren = {
+  AuthenticatedIsletmemIdRoute: AuthenticatedIsletmemIdRoute,
+}
+
+const AuthenticatedIsletmemRouteWithChildren =
+  AuthenticatedIsletmemRoute._addFileChildren(
+    AuthenticatedIsletmemRouteChildren,
+  )
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedBildirimRoute: typeof AuthenticatedBildirimRoute
+  AuthenticatedDesteklerRoute: typeof AuthenticatedDesteklerRoute
+  AuthenticatedDosyalarimRoute: typeof AuthenticatedDosyalarimRoute
+  AuthenticatedIsletmemRoute: typeof AuthenticatedIsletmemRouteWithChildren
+  AuthenticatedProfilimRoute: typeof AuthenticatedProfilimRoute
+  AuthenticatedBildirimlerIdRoute: typeof AuthenticatedBildirimlerIdRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedBildirimRoute: AuthenticatedBildirimRoute,
+  AuthenticatedDesteklerRoute: AuthenticatedDesteklerRoute,
+  AuthenticatedDosyalarimRoute: AuthenticatedDosyalarimRoute,
+  AuthenticatedIsletmemRoute: AuthenticatedIsletmemRouteWithChildren,
+  AuthenticatedProfilimRoute: AuthenticatedProfilimRoute,
+  AuthenticatedBildirimlerIdRoute: AuthenticatedBildirimlerIdRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AsistanRoute: AsistanRoute,
+  AuthRoute: AuthRoute,
+  BasvuruRoute: BasvuruRoute,
+  DestekRoute: DestekRoute,
+  GuvenRoute: GuvenRoute,
+  KesfetRoute: KesfetRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  IsletmeIdRoute: IsletmeIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
