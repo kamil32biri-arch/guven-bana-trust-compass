@@ -23,9 +23,10 @@ import { Route as AuthenticatedDesteklerRouteImport } from './routes/_authentica
 import { Route as AuthenticatedDosyalarimRouteImport } from './routes/_authenticated/dosyalarim'
 import { Route as AuthenticatedIsletmemRouteImport } from './routes/_authenticated/isletmem'
 import { Route as AuthenticatedProfilimRouteImport } from './routes/_authenticated/profilim'
+import { Route as AuthenticatedYonetimRouteImport } from './routes/_authenticated/yonetim'
 import { Route as IsletmeIdRouteImport } from './routes/isletme.$id'
 import { Route as AuthenticatedBildirimlerIdRouteImport } from './routes/_authenticated/bildirimler.$id'
-import { Route as AuthenticatedIsletmemIdRouteImport } from './routes/_authenticated/isletmem.$id'
+import { Route as AuthenticatedIsletmemIdRouteImport } from './routes/_authenticated/isletmem_.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -96,6 +97,11 @@ const AuthenticatedProfilimRoute = AuthenticatedProfilimRouteImport.update({
   path: '/profilim',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedYonetimRoute = AuthenticatedYonetimRouteImport.update({
+  id: '/yonetim',
+  path: '/yonetim',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const IsletmeIdRoute = IsletmeIdRouteImport.update({
   id: '/isletme/$id',
   path: '/isletme/$id',
@@ -108,9 +114,9 @@ const AuthenticatedBildirimlerIdRoute =
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedIsletmemIdRoute = AuthenticatedIsletmemIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => AuthenticatedIsletmemRoute,
+  id: '/isletmem_/$id',
+  path: '/isletmem/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -125,8 +131,9 @@ export interface FileRoutesByFullPath {
   '/bildirim': typeof AuthenticatedBildirimRoute
   '/destekler': typeof AuthenticatedDesteklerRoute
   '/dosyalarim': typeof AuthenticatedDosyalarimRoute
-  '/isletmem': typeof AuthenticatedIsletmemRouteWithChildren
+  '/isletmem': typeof AuthenticatedIsletmemRoute
   '/profilim': typeof AuthenticatedProfilimRoute
+  '/yonetim': typeof AuthenticatedYonetimRoute
   '/isletme/$id': typeof IsletmeIdRoute
   '/bildirimler/$id': typeof AuthenticatedBildirimlerIdRoute
   '/isletmem/$id': typeof AuthenticatedIsletmemIdRoute
@@ -143,8 +150,9 @@ export interface FileRoutesByTo {
   '/bildirim': typeof AuthenticatedBildirimRoute
   '/destekler': typeof AuthenticatedDesteklerRoute
   '/dosyalarim': typeof AuthenticatedDosyalarimRoute
-  '/isletmem': typeof AuthenticatedIsletmemRouteWithChildren
+  '/isletmem': typeof AuthenticatedIsletmemRoute
   '/profilim': typeof AuthenticatedProfilimRoute
+  '/yonetim': typeof AuthenticatedYonetimRoute
   '/isletme/$id': typeof IsletmeIdRoute
   '/bildirimler/$id': typeof AuthenticatedBildirimlerIdRoute
   '/isletmem/$id': typeof AuthenticatedIsletmemIdRoute
@@ -163,11 +171,12 @@ export interface FileRoutesById {
   '/_authenticated/bildirim': typeof AuthenticatedBildirimRoute
   '/_authenticated/destekler': typeof AuthenticatedDesteklerRoute
   '/_authenticated/dosyalarim': typeof AuthenticatedDosyalarimRoute
-  '/_authenticated/isletmem': typeof AuthenticatedIsletmemRouteWithChildren
+  '/_authenticated/isletmem': typeof AuthenticatedIsletmemRoute
   '/_authenticated/profilim': typeof AuthenticatedProfilimRoute
+  '/_authenticated/yonetim': typeof AuthenticatedYonetimRoute
   '/isletme/$id': typeof IsletmeIdRoute
   '/_authenticated/bildirimler/$id': typeof AuthenticatedBildirimlerIdRoute
-  '/_authenticated/isletmem/$id': typeof AuthenticatedIsletmemIdRoute
+  '/_authenticated/isletmem_/$id': typeof AuthenticatedIsletmemIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -185,6 +194,7 @@ export interface FileRouteTypes {
     | '/dosyalarim'
     | '/isletmem'
     | '/profilim'
+    | '/yonetim'
     | '/isletme/$id'
     | '/bildirimler/$id'
     | '/isletmem/$id'
@@ -203,6 +213,7 @@ export interface FileRouteTypes {
     | '/dosyalarim'
     | '/isletmem'
     | '/profilim'
+    | '/yonetim'
     | '/isletme/$id'
     | '/bildirimler/$id'
     | '/isletmem/$id'
@@ -222,9 +233,10 @@ export interface FileRouteTypes {
     | '/_authenticated/dosyalarim'
     | '/_authenticated/isletmem'
     | '/_authenticated/profilim'
+    | '/_authenticated/yonetim'
     | '/isletme/$id'
     | '/_authenticated/bildirimler/$id'
-    | '/_authenticated/isletmem/$id'
+    | '/_authenticated/isletmem_/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -340,6 +352,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProfilimRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/yonetim': {
+      id: '/_authenticated/yonetim'
+      path: '/yonetim'
+      fullPath: '/yonetim'
+      preLoaderRoute: typeof AuthenticatedYonetimRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/isletme/$id': {
       id: '/isletme/$id'
       path: '/isletme/$id'
@@ -354,45 +373,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBildirimlerIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/isletmem/$id': {
-      id: '/_authenticated/isletmem/$id'
-      path: '/$id'
+    '/_authenticated/isletmem_/$id': {
+      id: '/_authenticated/isletmem_/$id'
+      path: '/isletmem/$id'
       fullPath: '/isletmem/$id'
       preLoaderRoute: typeof AuthenticatedIsletmemIdRouteImport
-      parentRoute: typeof AuthenticatedIsletmemRoute
+      parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
-
-interface AuthenticatedIsletmemRouteChildren {
-  AuthenticatedIsletmemIdRoute: typeof AuthenticatedIsletmemIdRoute
-}
-
-const AuthenticatedIsletmemRouteChildren: AuthenticatedIsletmemRouteChildren = {
-  AuthenticatedIsletmemIdRoute: AuthenticatedIsletmemIdRoute,
-}
-
-const AuthenticatedIsletmemRouteWithChildren =
-  AuthenticatedIsletmemRoute._addFileChildren(
-    AuthenticatedIsletmemRouteChildren,
-  )
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedBildirimRoute: typeof AuthenticatedBildirimRoute
   AuthenticatedDesteklerRoute: typeof AuthenticatedDesteklerRoute
   AuthenticatedDosyalarimRoute: typeof AuthenticatedDosyalarimRoute
-  AuthenticatedIsletmemRoute: typeof AuthenticatedIsletmemRouteWithChildren
+  AuthenticatedIsletmemRoute: typeof AuthenticatedIsletmemRoute
   AuthenticatedProfilimRoute: typeof AuthenticatedProfilimRoute
+  AuthenticatedYonetimRoute: typeof AuthenticatedYonetimRoute
   AuthenticatedBildirimlerIdRoute: typeof AuthenticatedBildirimlerIdRoute
+  AuthenticatedIsletmemIdRoute: typeof AuthenticatedIsletmemIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBildirimRoute: AuthenticatedBildirimRoute,
   AuthenticatedDesteklerRoute: AuthenticatedDesteklerRoute,
   AuthenticatedDosyalarimRoute: AuthenticatedDosyalarimRoute,
-  AuthenticatedIsletmemRoute: AuthenticatedIsletmemRouteWithChildren,
+  AuthenticatedIsletmemRoute: AuthenticatedIsletmemRoute,
   AuthenticatedProfilimRoute: AuthenticatedProfilimRoute,
+  AuthenticatedYonetimRoute: AuthenticatedYonetimRoute,
   AuthenticatedBildirimlerIdRoute: AuthenticatedBildirimlerIdRoute,
+  AuthenticatedIsletmemIdRoute: AuthenticatedIsletmemIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
