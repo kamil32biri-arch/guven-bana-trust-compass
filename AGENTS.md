@@ -28,3 +28,7 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Application routing
+- Business-management detail is an unnested authenticated route, preserving its public URL without mounting inside the list page, because the list is content rather than an Outlet layout.
+- Declare loaders before loader-dependent head metadata so TanStack infers their results without casts.

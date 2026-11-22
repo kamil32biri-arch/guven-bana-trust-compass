@@ -1,4 +1,5 @@
 # Güven Bana
+- [x] TypeScript uyuşmazlıkları ve TanStack Router çakışmaları giderildi; otomatik derleme başarılı, 4 sayfa eşleşme testi geçti; masaüstü/mobil ana sayfa ve giriş yönlendirmeleri doğrulandı.
 - [ ] Ana sayfa, Türkçe menü ve mobil görünüm
 - [ ] Üyelik, profil ve güvenli çıkış
 - [ ] Bildirim oluşturma, takibi ve özel delil kasası
