@@ -10,5 +10,6 @@
 - [ ] Hesapta saklanan çoklu yapay zekâ görüşmeleri (Cloud ve kredi erişimi bekleniyor)
 - [ ] Gerçek kullanıcı akışı, erişim güvenliği ve mobil testler (Cloud yeniden açılması bekleniyor)
 
-Son talep: Kaldığın yerden devam et; mevcut iş sırası korunur.
+Son talep: Mevcut özellikleri koruyarak tüm TypeScript türlerini ve TanStack Router yollarını kapsamlı incele, hataları gider ve doğrulama sonuçlarını raporla.
+- [ ] Tür ve rota incelemesi, gerekli düzeltmeler, regresyon testleri ve otomatik derleme sonuçlarının kontrolü.
 Cloud yeniden açma onayı alındı ve yeniden açma işlemi başarılı; hizmetin hazır olması bekleniyor.
